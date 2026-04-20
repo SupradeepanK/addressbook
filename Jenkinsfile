@@ -10,6 +10,16 @@ pipeline {
     }
 
     stages {
+
+        stage('Clean Target Folder') {
+            steps {
+                sh '''
+                mkdir -p /home/jenkins/deploy
+                rm -rf /home/jenkins/deploy/*
+                '''
+            }
+        }
+
         stage('Checkout') {
             steps {
                 git branch: 'develop',
@@ -20,6 +30,20 @@ pipeline {
         stage('Build') {
             steps {
                 sh 'mvn clean compile'
+            }
+        }
+
+        stage('Copy Files to Folder') {
+            steps {
+                sh '''
+                cp -r * /home/jenkins/deploy/
+                '''
+            }
+        }
+
+        stage('Verify') {
+            steps {
+                sh 'ls -l /home/jenkins/deploy/'
             }
         }
     }
