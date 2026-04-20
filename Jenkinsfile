@@ -33,7 +33,7 @@ pipeline {
             }
         }
 
-        stage('Copy Files to Folder') {
+        stage('Copy Files') {
             steps {
                 sh '''
                 cp -r * /home/jenkins/deploy/
